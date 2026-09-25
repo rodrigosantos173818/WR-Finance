@@ -47,13 +47,13 @@ const groups: {
 }[] = [
   {
     label: 'VISÃO GERAL',
-    items: [{ name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, ready: true }],
+    items: [{ name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard }],
   },
   {
     label: 'FINANCEIRO',
     items: [
-      { name: 'Entradas', href: '/entradas', icon: ArrowUpRight, ready: true },
-      { name: 'Despesas', href: '/despesas', icon: ArrowDownRight, ready: true },
+      { name: 'Entradas', href: '/entradas', icon: ArrowUpRight },
+      { name: 'Despesas', href: '/despesas', icon: ArrowDownRight },
       { name: 'Contas a receber', href: '/contas-receber', icon: Receipt },
       { name: 'Contas a pagar', href: '/contas-pagar', icon: Receipt },
       { name: 'Transferências', href: '/transferencias', icon: ArrowLeftRight },
@@ -73,7 +73,7 @@ const groups: {
   },
   {
     label: 'SISTEMA',
-    items: [{ name: 'Configurações', href: '/configuracoes', icon: Settings, ready: true }],
+    items: [{ name: 'Configurações', href: '/configuracoes', icon: Settings }],
   },
 ];
 export function AppShell({
@@ -101,35 +101,22 @@ export function AppShell({
             <p className="mb-2 px-3 text-[10px] font-semibold tracking-[.13em] text-muted-foreground">
               {group.label}
             </p>
-            {group.items.map((item) =>
-              item.ready ? (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="wr-sidebar-link"
-                  aria-current={
-                    pathname === item.href || pathname.startsWith(`${item.href}/`)
-                      ? 'page'
-                      : undefined
-                  }
-                  onClick={() => setOpen(false)}
-                >
-                  <item.icon className="size-[18px]" />
-                  {item.name}
-                </Link>
-              ) : (
-                <span
-                  key={item.href}
-                  className="wr-sidebar-link"
-                  data-disabled
-                  title="Módulo previsto para a próxima fase"
-                >
-                  <item.icon className="size-[18px]" />
-                  {item.name}
-                  <span className="sr-only">Disponível em uma próxima fase</span>
-                </span>
-              ),
-            )}
+            {group.items.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="wr-sidebar-link"
+                aria-current={
+                  pathname === item.href || pathname.startsWith(`${item.href}/`)
+                    ? 'page'
+                    : undefined
+                }
+                onClick={() => setOpen(false)}
+              >
+                <item.icon className="size-[18px]" />
+                {item.name}
+              </Link>
+            ))}
           </div>
         ))}
       </nav>
