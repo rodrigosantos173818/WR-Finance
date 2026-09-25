@@ -1,0 +1,26 @@
+/* Integração opcional com Tailwind v4. Importe DEPOIS de tailwindcss e tokens.css.
+   Não é necessário instalar Tailwind para usar os componentes desta base. */
+@theme inline {
+  --color-wr-background: var(--wr-background);
+  --color-wr-background-secondary: var(--wr-background-secondary);
+  --color-wr-surface: var(--wr-surface);
+  --color-wr-surface-secondary: var(--wr-surface-secondary);
+  --color-wr-surface-hover: var(--wr-surface-hover);
+  --color-wr-green: var(--wr-green);
+  --color-wr-green-dark: var(--wr-green-dark);
+  --color-wr-green-bright: var(--wr-green-bright);
+  --color-wr-text: var(--wr-text);
+  --color-wr-text-secondary: var(--wr-text-secondary);
+  --color-wr-text-muted: var(--wr-text-muted);
+  --color-wr-text-subtle: var(--wr-text-subtle);
+  --color-wr-border: var(--wr-border);
+  --color-wr-border-hover: var(--wr-border-hover);
+  --color-wr-positive: var(--wr-positive);
+  --color-wr-negative: var(--wr-negative);
+  --color-wr-warning: var(--wr-warning);
+  --color-wr-info: var(--wr-info);
+  --radius-wr-card: var(--wr-radius-card);
+  --radius-wr-control: var(--wr-radius-control);
+  --font-wr: var(--wr-font);
+  --shadow-wr-card: var(--wr-shadow);
+}

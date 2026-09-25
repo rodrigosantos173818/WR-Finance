@@ -1,0 +1,4 @@
+'use client';
+import { Button } from '@/components/ui/button';
+import { Dialog,DialogContent,DialogHeader,DialogTitle,DialogDescription,DialogFooter } from '@/components/ui/dialog';
+export function ConfirmDialog({open,onOpenChange,title,description,onConfirm,busy=false}:{open:boolean;onOpenChange:(open:boolean)=>void;title:string;description:string;onConfirm:()=>void;busy?:boolean}) {return <Dialog open={open} onOpenChange={onOpenChange}><DialogContent><DialogHeader><DialogTitle>{title}</DialogTitle><DialogDescription>{description}</DialogDescription></DialogHeader><DialogFooter><Button variant="outline" disabled={busy} onClick={()=>onOpenChange(false)}>Cancelar</Button><Button variant="destructive" disabled={busy} onClick={onConfirm}>{busy?'Aguarde...':'Confirmar'}</Button></DialogFooter></DialogContent></Dialog>;}

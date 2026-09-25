@@ -1,0 +1,71 @@
+/* WR Finance · fonte única dos valores visuais. Tema escuro nativo. */
+:root {
+  color-scheme: dark;
+  --wr-background: #080b10;
+  --wr-background-secondary: #0d1117;
+  --wr-surface: #121922;
+  --wr-surface-secondary: #161f2a;
+  --wr-surface-hover: #1a2531;
+  --wr-green: #17a655;
+  --wr-green-dark: #1d7a4a;
+  --wr-green-bright: #20d675;
+  --wr-text: #f8fafc;
+  --wr-text-secondary: #a8b3c2;
+  --wr-text-muted: #687588;
+  --wr-text-subtle: #8c99aa;
+  --wr-on-primary: #ffffff;
+  --wr-border: rgba(255, 255, 255, 0.06);
+  --wr-border-hover: rgba(255, 255, 255, 0.1);
+  --wr-border-control: rgba(255, 255, 255, 0.08);
+  --wr-border-active: rgba(23, 166, 85, 0.45);
+  --wr-positive: #20d675;
+  --wr-negative: #f05d68;
+  --wr-warning: #f4b942;
+  --wr-info: #5aa7ff;
+  --wr-chart-mint: #65c98e;
+  --wr-chart-violet: #8b7cf6;
+  --wr-green-soft: rgba(23, 166, 85, 0.1);
+  --wr-green-hover: rgba(23, 166, 85, 0.16);
+  --wr-green-border: rgba(23, 166, 85, 0.3);
+  --wr-balance-border: rgba(23, 166, 85, 0.22);
+  --wr-positive-soft: rgba(32, 214, 117, 0.12);
+  --wr-negative-soft: rgba(240, 93, 104, 0.12);
+  --wr-warning-soft: rgba(244, 185, 66, 0.12);
+  --wr-info-soft: rgba(90, 167, 255, 0.12);
+  --wr-violet-soft: rgba(139, 124, 246, 0.12);
+  --wr-chart-grid: rgba(255, 255, 255, 0.05);
+  --wr-overlay: rgba(4, 7, 11, 0.78);
+  --wr-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+  --wr-shadow-floating: 0 18px 60px rgba(0, 0, 0, 0.4);
+  --wr-background-glow: radial-gradient(
+    circle at 50% -20%,
+    rgba(23, 166, 85, 0.08),
+    transparent 35%
+  );
+  --wr-balance-gradient: linear-gradient(135deg, rgba(23, 166, 85, 0.16), var(--wr-surface) 60%);
+  --wr-primary-gradient: linear-gradient(135deg, var(--wr-green), var(--wr-green-dark));
+  --wr-font: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --wr-radius-sm: 8px;
+  --wr-radius-control: 10px;
+  --wr-radius-card: 16px;
+  --wr-radius-dialog: 20px;
+  --wr-radius-pill: 999px;
+  --wr-space-1: 4px;
+  --wr-space-2: 8px;
+  --wr-space-3: 12px;
+  --wr-space-4: 16px;
+  --wr-space-5: 20px;
+  --wr-space-6: 24px;
+  --wr-space-8: 32px;
+  --wr-space-10: 40px;
+  --wr-space-12: 48px;
+  --wr-control-height: 42px;
+  --wr-duration: 160ms;
+  --wr-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --wr-sidebar-width: 236px;
+  --wr-layer-sidebar: 20;
+  --wr-layer-floating: 40;
+  --wr-layer-overlay: 50;
+  --wr-layer-dialog: 60;
+  --wr-layer-toast: 80;
+}
