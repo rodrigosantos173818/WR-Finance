@@ -25,7 +25,7 @@ export default async function SettingsPage() {
           <div>
             <h2 className="font-semibold">Assinatura</h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              WR Finance Pro · R$ 29,90/mês ·{' '}
+              WR Finance Pro · R$ 19,90/mês ·{' '}
               {subscription.available ? statusLabels[subscription.status] : 'Verificar status'}
             </p>
           </div>

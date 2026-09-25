@@ -58,7 +58,7 @@ export async function verifyBilling({ page, fixture, baseUrl, expect }) {
   await page.getByRole('dialog').getByRole('link', { name: 'Assinar WR Finance Pro' }).click();
   await expect(page.getByRole('heading', { name: 'Assinatura.', exact: true })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'WR Finance Pro', exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Assinar por R$ 29,90/mês', exact: true }).click();
+  await page.getByRole('button', { name: 'Assinar por R$ 19,90/mês', exact: true }).click();
   await expect(page.getByRole('main').getByRole('alert')).toContainText('temporariamente indisponível');
   const organizationId = await fixture.setBillingState('trialing', { days: -1 });
   await page.goto(`${baseUrl}/configuracoes/assinatura?checkout=success&company=${organizationId}`);

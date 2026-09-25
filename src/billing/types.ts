@@ -45,7 +45,7 @@ export type SubscriptionAccess = z.infer<typeof subscriptionAccessSchema>;
 export const PRO_PLAN: SubscriptionAccess['plan'] = {
   slug: 'pro',
   name: 'WR Finance Pro',
-  priceCents: 2990,
+  priceCents: 1990,
   currency: 'BRL',
   interval: 'month',
   trialDays: 30,

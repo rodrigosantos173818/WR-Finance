@@ -135,7 +135,7 @@ export function SubscriptionProvider({
           </DialogHeader>
           {access.available && (
             <p className="py-3 text-3xl font-semibold">
-              R$ 29,90<span className="text-sm font-normal text-muted-foreground">/mês</span>
+              R$ 19,90<span className="text-sm font-normal text-muted-foreground">/mês</span>
             </p>
           )}
           {!access.canManage && (

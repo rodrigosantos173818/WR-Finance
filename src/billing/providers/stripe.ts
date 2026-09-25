@@ -93,7 +93,7 @@ export class StripeProvider implements BillingProvider {
     if (
       value.id !== this.config.priceId ||
       value.currency !== 'brl' ||
-      value.unit_amount !== 2990 ||
+      value.unit_amount !== 1990 ||
       value.recurring?.interval !== 'month' ||
       value.recurring.interval_count !== 1
     )

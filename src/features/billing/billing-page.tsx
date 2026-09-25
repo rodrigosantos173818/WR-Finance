@@ -142,7 +142,7 @@ export function BillingPage({
             <CreditCard className="size-5 text-primary" />
           </div>
           <p className="text-4xl font-semibold tracking-tight">
-            R$ 29,90 <span className="text-sm font-normal text-muted-foreground">/ mês</span>
+            R$ 19,90 <span className="text-sm font-normal text-muted-foreground">/ mês</span>
           </p>
           <p className="mt-3 text-sm leading-6 text-muted-foreground">
             30 dias para experimentar. Sem cartão para começar.
@@ -174,7 +174,7 @@ export function BillingPage({
                   ? 'Aguarde…'
                   : access.hasProviderSubscription && !access.isExpired
                     ? 'Gerenciar assinatura'
-                    : 'Assinar por R$ 29,90/mês'}
+                    : 'Assinar por R$ 19,90/mês'}
               </Button>
               {!access.hasProviderSubscription && (
                 <p className="text-xs leading-5 text-muted-foreground">
@@ -209,7 +209,7 @@ export function BillingPage({
           <dl className="space-y-4 text-sm">
             {[
               ['Plano', access.plan.name],
-              ['Preço', 'R$ 29,90 / mês'],
+              ['Preço', 'R$ 19,90 / mês'],
               ['Data de início', billingDate(access.createdAt)],
               ['Início do teste', billingDate(access.trialStartedAt)],
               ['Fim do período gratuito', billingDate(access.trialEndsAt)],

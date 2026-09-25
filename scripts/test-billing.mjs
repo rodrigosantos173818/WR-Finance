@@ -65,7 +65,7 @@ try {
   assert.equal(initial.status, 'trialing');
   assert.equal(initial.canWrite, true);
   assert.equal(initial.daysRemaining, 30);
-  assert.equal(initial.plan.priceCents, 2990);
+  assert.equal(initial.plan.priceCents, 1990);
   const second = await value("select public.create_organization('Outra empresa do mesmo usuário')");
   assert.equal((await access(second)).trialEndsAt, initial.trialEndsAt);
   await q('delete from public.organizations where id=$1', [second]);
