@@ -5,6 +5,7 @@ import { cookies } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
 import { getSupabaseEnv, siteUrl } from '@/lib/supabase/env';
 import { getMemberships, requireUser } from '@/services/session';
+import { authErrorMessage, reportAuthError } from './errors';
 export type AuthState = { error?: string; success?: string };
 const emailSchema = z.email().max(254);
 const passwordSchema = z.string().min(10).max(128);
@@ -17,8 +18,15 @@ export async function signIn(_state: AuthState, form: FormData): Promise<AuthSta
   if (!email.success || !password) return { error: 'Confira o e-mail e a senha.' };
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({ email: email.data, password });
-  if (error)
-    return { error: 'Não foi possível entrar. Confira os dados e a confirmação do seu e-mail.' };
+  if (error) {
+    reportAuthError('signin', error);
+    return {
+      error: authErrorMessage(
+        error,
+        'Não foi possível entrar. Confira os dados e a confirmação do seu e-mail.',
+      ),
+    };
+  }
   redirect('/dashboard');
 }
 export async function signUp(_state: AuthState, form: FormData): Promise<AuthState> {
@@ -46,14 +54,44 @@ export async function signUp(_state: AuthState, form: FormData): Promise<AuthSta
       emailRedirectTo: `${siteUrl()}/auth/callback`,
     },
   });
-  if (error)
+  if (error) {
+    reportAuthError('signup', error);
     return {
-      error: 'Não foi possível criar o acesso. Confira os dados ou tente novamente mais tarde.',
+      error: authErrorMessage(
+        error,
+        'Não foi possível criar o acesso. Confira os dados ou tente novamente mais tarde.',
+      ),
     };
+  }
   if (data.session) redirect('/onboarding');
   return {
     success:
-      'Confira seu e-mail para confirmar o acesso. Se já tiver uma conta, use Entrar ou recupere sua senha.',
+      'Confira seu e-mail e a pasta de spam para confirmar o acesso. Se não chegar, use Reenviar confirmação abaixo. Se já tiver uma conta confirmada, use Entrar ou recupere sua senha.',
+  };
+}
+export async function resendConfirmation(_state: AuthState, form: FormData): Promise<AuthState> {
+  if (!getSupabaseEnv())
+    return { error: 'A conexão com o Supabase ainda precisa ser configurada.' };
+  const email = emailSchema.safeParse(String(form.get('email')).trim());
+  if (!email.success) return { error: 'Informe um e-mail válido.' };
+  const supabase = await createClient();
+  const { error } = await supabase.auth.resend({
+    type: 'signup',
+    email: email.data,
+    options: { emailRedirectTo: `${siteUrl()}/auth/callback` },
+  });
+  if (error) {
+    reportAuthError('resend_confirmation', error);
+    return {
+      error: authErrorMessage(
+        error,
+        'Não foi possível solicitar a confirmação. Tente novamente mais tarde.',
+      ),
+    };
+  }
+  return {
+    success:
+      'Se houver um cadastro aguardando confirmação neste endereço, você receberá um novo e-mail. Confira também a pasta de spam e abra o link neste navegador. Aguarde antes de solicitar outro envio.',
   };
 }
 export async function forgotPassword(_state: AuthState, form: FormData): Promise<AuthState> {
@@ -65,10 +103,15 @@ export async function forgotPassword(_state: AuthState, form: FormData): Promise
   const { error } = await supabase.auth.resetPasswordForEmail(email.data, {
     redirectTo: `${siteUrl()}/auth/callback?next=/reset-password`,
   });
-  if (error)
+  if (error) {
+    reportAuthError('password_recovery', error);
     return {
-      error: 'Não foi possível enviar a solicitação agora. Tente novamente em alguns minutos.',
+      error: authErrorMessage(
+        error,
+        'Não foi possível enviar a solicitação agora. Tente novamente em alguns minutos.',
+      ),
     };
+  }
   return {
     success: 'Se este e-mail estiver cadastrado, você receberá um link para redefinir a senha.',
   };

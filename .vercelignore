@@ -1,0 +1,8 @@
+.env*
+.npm-cache/
+artifacts/
+legacy/
+dist/
+.agents/
+.codex/
+*.tsbuildinfo

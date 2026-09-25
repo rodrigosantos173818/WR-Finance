@@ -5,7 +5,7 @@ import { createHash, createHmac, randomUUID } from 'node:crypto';
 import { readFile, readdir } from 'node:fs/promises';
 import { PGlite } from '@electric-sql/pglite';
 
-export async function startLocalSupabase() {
+export async function startLocalSupabase({ authOnly = false } = {}) {
   const db = new PGlite();
   const user = {
     id: randomUUID(),
@@ -22,6 +22,7 @@ export async function startLocalSupabase() {
     recoveryChallenge;
   const requests = [];
   const failures = new Map();
+  const authFailures = new Map();
   const jwtSecret = randomUUID();
   const encoded = (value) => Buffer.from(JSON.stringify(value)).toString('base64url');
   const tokenBody = `${encoded({ alg: 'HS256', typ: 'JWT' })}.${encoded({ sub: user.id, aud: 'authenticated', role: 'authenticated', exp: Math.floor(Date.now() / 1000) + 3600, iat: Math.floor(Date.now() / 1000), session_id: randomUUID() })}`;
@@ -40,7 +41,7 @@ export async function startLocalSupabase() {
     `create role anon nologin; create role authenticated nologin; create role service_role nologin bypassrls; create schema auth; create table auth.users(id uuid primary key); create function auth.uid() returns uuid language sql stable as $$ select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid $$; grant usage on schema auth to authenticated,anon; grant execute on function auth.uid() to authenticated,anon;`,
   );
   await db.query('insert into auth.users(id) values ($1)', [user.id]);
-  for (const file of (await readdir('supabase/migrations'))
+  for (const file of (authOnly ? [] : await readdir('supabase/migrations'))
     .filter((file) => file.endsWith('.sql'))
     .sort())
     await db.exec(await readFile(`supabase/migrations/${file}`, 'utf8'));
@@ -59,7 +60,10 @@ export async function startLocalSupabase() {
   ]);
   const server = createServer(async (request, response) => {
     const send = (status, body) => {
-      response.writeHead(status, { 'Content-Type': 'application/json' });
+      response.writeHead(status, {
+        'Content-Type': 'application/json',
+        'X-Supabase-Api-Version': '2024-01-01',
+      });
       response.end(JSON.stringify(body));
     };
     try {
@@ -73,6 +77,12 @@ export async function startLocalSupabase() {
         body,
         query: Object.fromEntries(url.searchParams),
       });
+      if (authFailures.has(url.pathname)) {
+        const failure = authFailures.get(url.pathname);
+        authFailures.delete(url.pathname);
+        return send(failure.status, { code: failure.code, message: 'Simulated Auth failure' });
+      }
+      if (url.pathname === '/auth/v1/resend') return send(200, {});
       if (url.pathname === '/auth/v1/signup')
         return send(200, {
           ...user,
@@ -119,6 +129,7 @@ export async function startLocalSupabase() {
         return;
       }
       const name = url.pathname.replace('/rest/v1/rpc/', '');
+      if (authOnly && name === 'get_my_organizations') return send(200, []);
       if (!allowedFunctions.has(name) || request.method !== 'POST')
         return send(404, { message: 'Test endpoint not found' });
       if (failures.has(name)) {
@@ -149,6 +160,9 @@ export async function startLocalSupabase() {
     email: user.email,
     password,
     requests,
+    failNextAuth(path, code, status = 422) {
+      authFailures.set(`/auth/v1/${path}`, { code, status });
+    },
     failNextRpc(name) {
       failures.set(name, 'Simulated local connection error');
     },

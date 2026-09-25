@@ -31,6 +31,7 @@ const filters = {
 };
 for (const [name, body] of [
   ['get_my_organizations', {}],
+  ['get_subscription_access', { p_org: filters.p_org }],
   ['get_dashboard', { ...filters, p_chart_months: 6 }],
   [
     'get_transaction_details',
@@ -55,5 +56,5 @@ await writeFile(
   JSON.stringify({ checkedAt: new Date().toISOString(), mode: 'read-only', checks }, null, 2),
 );
 console.log(
-  'OK: Supabase real acessível, chave válida, e-mail habilitado e 3 consultas protegidas contra acesso anônimo. Nenhuma gravação realizada.',
+  'OK: Supabase real acessível, chave válida, e-mail habilitado e 4 consultas protegidas contra acesso anônimo. Nenhuma gravação realizada.',
 );

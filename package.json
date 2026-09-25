@@ -13,6 +13,7 @@
     "test:db": "node scripts/test-database.mjs && node scripts/test-billing.mjs",
     "test:connection": "node scripts/check-supabase.mjs",
     "test:ui": "node scripts/verify-phase1.mjs",
+    "test:auth": "node scripts/verify-auth.mjs",
     "dev:legacy": "vite legacy --host 127.0.0.1 --port 5173",
     "format": "prettier --write src tests scripts *.ts *.json *.md"
   },
